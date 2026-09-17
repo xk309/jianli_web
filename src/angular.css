@@ -1,0 +1,95 @@
+/* Reference composition: full-bleed portrait, offset name and golden cutline. */
+.theme-angular { background: #e9eaef; color: #25282d; }
+.angular-composition { padding: 0; }
+.angular-composition .resume-columns {
+  gap: 38px;
+  min-height: 1123px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, var(--sidebar-width));
+}
+.angular-composition .resume-main {
+  grid-column: 1;
+  grid-row: 1;
+  padding: calc(var(--page-padding) * 2.1) 0 var(--page-padding) calc(var(--page-padding) * 1.65);
+}
+.angular-composition .resume-sidebar { grid-column: 2; grid-row: 1; }
+.angular-composition.layout-left .resume-columns {
+  grid-template-columns: minmax(0, var(--sidebar-width)) minmax(0, 1fr);
+}
+.angular-composition.layout-left .resume-sidebar { grid-column: 1; }
+.angular-composition.layout-left .resume-main {
+  grid-column: 2;
+  padding-left: 0;
+  padding-right: calc(var(--page-padding) * 1.65);
+}
+.theme-angular .resume-header {
+  padding: 34px 0 40px;
+  margin-bottom: 35px;
+  border-color: #cbd0d6;
+}
+.theme-angular .resume-header::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 34px;
+  height: 11px;
+  background: var(--accent);
+  transform: skewY(-28deg);
+}
+.theme-angular .header-mark { display: none; }
+.theme-angular .resume-eyebrow {
+  font-family: var(--heading-font);
+  font-size: calc(var(--name-size) * .62);
+  color: inherit;
+  letter-spacing: 1px;
+  line-height: 1.15;
+  margin-bottom: 2px;
+}
+.theme-angular .resume-header h1 { line-height: 1.15; letter-spacing: 1px; }
+.theme-angular .resume-role { font-size: 10px; letter-spacing: 1.5px; color: #686d76; }
+.theme-angular h2 { color: #272c31; border: 0; letter-spacing: .3px; margin-bottom: 18px; padding: 0; }
+.theme-angular h2 > span { color: #798089; font-size: 8px; letter-spacing: 1px; }
+.theme-angular .resume-section { margin-bottom: calc(var(--section-gap) + 22px); }
+.theme-angular .summary { padding-bottom: 28px; border-bottom: 1px solid #cbd0d6; }
+.theme-angular .summary p, .theme-angular .entry-description p { color: #525960; }
+.theme-angular .entry-top { display: block; }
+.theme-angular .entry-top time { font-family: var(--resume-font); color: #717780; }
+.theme-angular .organization { color: #606670; }
+.theme-angular .resume-entry { margin-bottom: 28px; }
+.angular-sidebar-content { padding: 28px calc(var(--page-padding) * .7) var(--page-padding) 0; }
+.layout-left .angular-sidebar-content { padding-left: calc(var(--page-padding) * .7); padding-right: 0; }
+.angular-portrait { position: relative; }
+.angular-portrait .portrait {
+  height: 445px;
+  margin: 0;
+  background: #cdd0d5;
+}
+.angular-portrait .portrait img { filter: grayscale(1); object-position: center top; }
+.theme-angular .portrait-placeholder { background: linear-gradient(130deg, #d5d8dd, #a0a5ae); color: #555d67; }
+.theme-angular .portrait-placeholder::before { top: 72px; width: 155px; height: 155px; border-color: #677280; }
+.theme-angular .portrait-placeholder small { color: #646e79; }
+.resume-paper .portrait.shape-geometric { clip-path: polygon(0 0, 100% 0, 100% 92%, 83% 100%, 0 77%); border-radius: 0; }
+.angular-portrait.has-ribbon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  width: 52%;
+  height: 56px;
+  background: var(--accent);
+  transform: skewY(28deg);
+  transform-origin: right bottom;
+  pointer-events: none;
+}
+.theme-angular .resume-contact { border-bottom: 1px solid #cbd0d6; padding-bottom: 28px; margin-bottom: 36px; }
+.theme-angular .resume-contact > div { flex-direction: row; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
+.contact-symbol { display: grid; place-items: center; flex: 0 0 18px; height: 18px; border-radius: 50%; background: var(--accent); color: white; margin-top: 2px; }
+.contact-symbol svg { width: 12px; height: 12px; }
+.theme-angular .skill-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 15px 0; }
+.theme-angular .skill-row > div:first-child { flex: 1; }
+.skill-dots { display: flex; gap: 6px; flex-shrink: 0; }
+.skill-dots i { width: 7px; height: 7px; border-radius: 50%; background: #a4aab3; }
+.skill-dots i.filled { background: var(--accent); }
+@media print {
+  .angular-composition .resume-columns { min-height: 297mm; }
+}

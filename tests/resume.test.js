@@ -90,3 +90,23 @@ test('all templates retain resume text, while hiding a module removes only its p
     assert.equal(data.sections[0].items.length, 2);
   }
 });
+
+test('reference template keeps content and geometric photo settings through backup', () => {
+  const data = createResume();
+  const template = templates.find(item => item.id === 'angular');
+  data.style = { ...data.style, template: template.id, layout: template.layout, accent: template.color, ...template.defaults };
+  data.sections.find(section => section.id === 'skills').items[0].level = 60;
+  const restored = parseResume(JSON.stringify(data));
+  assert.equal(restored.style.photoShape, 'geometric');
+  assert.equal(restored.style.headingFont, 'sans');
+  const markup = resumeMarkup(restored);
+  assert.ok(markup.includes('angular-composition layout-right'));
+  assert.ok(markup.indexOf('class="resume-main"') < markup.indexOf('class="resume-header"'));
+  assert.ok(markup.includes('angular-portrait has-ribbon'));
+  assert.match(markup, /aria-label="熟练度 60%"><i class="filled"><\/i><i class="filled"><\/i><i class="filled"><\/i><i class=""><\/i><i class=""><\/i>/);
+  for (const section of data.sections) assert.ok(markup.includes(`data-section="${section.id}"`));
+  restored.style.showPhoto = false;
+  assert.ok(!resumeMarkup(restored).includes('angular-portrait'));
+  restored.style.layout = 'single';
+  assert.ok(!resumeMarkup(restored).includes('angular-composition'));
+});

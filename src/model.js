@@ -3,7 +3,7 @@ export const templates = [
   { id: 'classic', name: '经典 · 序章', english: 'THE CLASSIC', color: '#b9552c', layout: 'left', tag: '专业商务', description: '橘色点缀 / 清晰时间线' },
   { id: 'soft', name: '柔和 · 奶油', english: 'THE SOFT', color: '#b7917c', layout: 'left', tag: '亲和柔美', description: '柔和色块 / 圆角双栏' },
   { id: 'bold', name: '醒目 · 黑金', english: 'THE BOLD', color: '#e0b737', layout: 'left', tag: '创意表达', description: '黑金撞色 / 大胆标题' },
-  { id: 'angular', name: '锐意 · 几何', english: 'THE ANGULAR', color: '#c5a32d', layout: 'right', tag: '现代简约', description: '几何切角 / 右侧信息栏' },
+  { id: 'angular', name: '锐意 · 几何', english: 'THE ANGULAR', color: '#d5ac20', layout: 'right', tag: '参考图款', description: '右上大头像 / 金色斜切 / 圆点技能', defaults: { headingFont: 'sans', sidebarWidth: 36, photoShape: 'geometric' } },
   { id: 'natural', name: '自然 · 亚麻', english: 'THE NATURAL', color: '#a09886', layout: 'left', tag: '优雅质感', description: '亚麻配色 / 杂志式姓名' },
   { id: 'cards', name: '灵感 · 卡片', english: 'THE CREATIVE', color: '#c4a34e', layout: 'left', tag: '设计师', description: '圆形头像 / 分层卡片' },
   { id: 'timeline', name: '轨迹 · 时光', english: 'THE TIMELINE', color: '#bd8586', layout: 'right', tag: '履历丰富', description: '玫瑰粉 / 时间轴叙事' },
@@ -91,6 +91,6 @@ export function parseResume(text) {
     fontSize: number(style.fontSize, 10, 18, 12), nameSize: number(style.nameSize, 24, 64, 38), lineHeight: number(style.lineHeight, 1.2, 2.4, 1.6),
     sectionGap: number(style.sectionGap, 12, 48, 20), padding: number(style.padding, 20, 64, 40), sidebarWidth: number(style.sidebarWidth, 25, 42, 32),
     letterSpacing: number(style.letterSpacing, 0, 3, 0), headingWeight: number(style.headingWeight, 400, 800, 600),
-    photoShape: choice(style.photoShape, ['square', 'round', 'arch'], 'square'), showPhoto: style.showPhoto !== false,
+    photoShape: choice(style.photoShape, ['square', 'round', 'arch', 'geometric'], 'square'), showPhoto: style.showPhoto !== false,
   } };
 }

@@ -1,4 +1,5 @@
 import './style.css';
+import './angular.css';
 import { createResume, escapeHtml as safe, fonts, moveSection, parseResume, storageKey, templates } from './model.js';
 import { resumeMarkup } from './resume.js';
 
@@ -103,12 +104,12 @@ function renderEditor() {
 }
 function renderDesign() {
   const template = templates.find(item => item.id === resume.style.template);
-  document.querySelector('#design-content').innerHTML = `<section class="design-group"><div class="group-heading"><h3>当前模板</h3><button class="text-button" data-action="templates">更换 ${icon('arrow')}</button></div><button class="current-template" data-action="templates"><div class="mini-template" aria-hidden="true">${resumeMarkup({ ...createResume(), style: { ...createResume().style, template: template.id, accent: template.color, layout: template.layout } })}</div><span><small>${template.english}</small><strong>${template.name}</strong><em>${template.description}</em></span></button></section>
+  document.querySelector('#design-content').innerHTML = `<section class="design-group"><div class="group-heading"><h3>当前模板</h3><button class="text-button" data-action="templates">更换 ${icon('arrow')}</button></div><button class="current-template" data-action="templates"><div class="mini-template" aria-hidden="true">${resumeMarkup({ ...createResume(), style: { ...createResume().style, template: template.id, accent: template.color, layout: template.layout, ...template.defaults } })}</div><span><small>${template.english}</small><strong>${template.name}</strong><em>${template.description}</em></span></button></section>
     <section class="design-group"><div class="group-heading"><h3>布局结构</h3><span>LAYOUT</span></div><div class="layout-options">${[['left', '左侧栏'], ['right', '右侧栏'], ['single', '单栏'], ['three', '三栏']].map(([id, label]) => `<button class="layout-option ${resume.style.layout === id ? 'selected' : ''}" data-layout="${id}" aria-pressed="${resume.style.layout === id}"><span class="layout-symbol ${id}"><i></i><i></i><i></i></span><small>${label}</small></button>`).join('')}</div>${slider('侧栏宽度', 'sidebarWidth', 25, 42, 1, '%')}</section>
     <section class="design-group"><div class="group-heading"><h3>主题配色</h3><span>COLOR</span></div><div class="color-swatches">${['#53675b', '#303333', '#76969c', '#b7917c', '#bd8586', '#c5a32d'].map(color => `<button class="swatch ${resume.style.accent === color ? 'selected' : ''}" style="--swatch:${color}" data-color="${color}" aria-label="主题色 ${color}" aria-pressed="${resume.style.accent === color}">${resume.style.accent === color ? icon('check') : ''}</button>`).join('')}<label class="custom-color" title="自定义颜色"><input type="color" aria-label="自定义主题色" data-style="accent" value="${resume.style.accent}" />+</label></div></section>
     <section class="design-group"><div class="group-heading"><h3>字体排印</h3><span>TYPOGRAPHY</span></div>${selectControl('正文字体', 'font', resume.style.font, Object.fromEntries(Object.entries(fonts).map(([key, font]) => [key, font.name])))}${selectControl('标题字体', 'headingFont', resume.style.headingFont, Object.fromEntries(Object.entries(fonts).map(([key, font]) => [key, font.name])))}<p class="font-note">使用本机字体；未安装时自动使用备用字体。</p>${slider('正文字号', 'fontSize', 10, 18, 0.5, 'px')}${slider('姓名字号', 'nameSize', 24, 64, 1, 'px')}${slider('标题字重', 'headingWeight', 400, 800, 100)}${slider('文字行距', 'lineHeight', 1.2, 2.4, 0.1)}${slider('字符间距', 'letterSpacing', 0, 3, 0.1, 'px')}</section>
     <section class="design-group"><div class="group-heading"><h3>间距与留白</h3><span>SPACING</span></div>${slider('模块间距', 'sectionGap', 12, 48, 1, 'px')}${slider('页面边距', 'padding', 20, 64, 1, 'px')}</section>
-    <section class="design-group"><div class="group-heading"><h3>个人照片</h3><label class="toggle-label"><input type="checkbox" data-style="showPhoto" ${resume.style.showPhoto ? 'checked' : ''} />显示</label></div>${selectControl('照片形状', 'photoShape', resume.style.photoShape, { square: '方形 · 经典', round: '圆形 · 亲和', arch: '拱形 · 艺术' })}</section><button class="button reset-style" data-action="reset-style">恢复当前模板的默认样式</button>`;
+    <section class="design-group"><div class="group-heading"><h3>个人照片</h3><label class="toggle-label"><input type="checkbox" data-style="showPhoto" ${resume.style.showPhoto ? 'checked' : ''} />显示</label></div>${selectControl('照片形状', 'photoShape', resume.style.photoShape, { square: '方形 · 经典', round: '圆形 · 亲和', arch: '拱形 · 艺术', geometric: '斜切 · 几何' })}</section><button class="button reset-style" data-action="reset-style">恢复当前模板的默认样式</button>`;
 }
 function updatePreview() {
   paperSizeObserver.disconnect();
@@ -134,7 +135,7 @@ function renderGallery(filter = 'all') {
   const creativeIds = ['bold', 'swiss', 'soft', 'cards', 'coastal', 'timeline'];
   document.querySelector('#template-gallery').innerHTML = templates.filter(template => filter === 'all' || (filter === 'creative' ? creativeIds.includes(template.id) : !creativeIds.includes(template.id))).map((template, index) => {
     const sample = createResume();
-    sample.style = { ...sample.style, template: template.id, layout: template.layout, accent: template.color };
+    sample.style = { ...sample.style, template: template.id, layout: template.layout, accent: template.color, ...template.defaults };
     return `<button class="gallery-card ${resume.style.template === template.id ? 'selected' : ''}" data-template="${template.id}" aria-label="使用${template.name}模板"><div class="gallery-paper" aria-hidden="true">${resumeMarkup(sample)}<span class="template-tag">${template.tag}</span><span class="choose-template">${resume.style.template === template.id ? '正在使用' : '使用这个模板'} ${icon('arrow')}</span></div><div class="gallery-caption"><div><small>${String(index + 1).padStart(2, '0')} / ${template.english}</small><h3>${template.name}</h3><p>${template.description}</p></div><span style="background:${template.color}"></span></div></button>`;
   }).join('');
 }
@@ -142,7 +143,7 @@ function updateEverything() { renderNavigation(); renderEditor(); renderDesign()
 function applyTemplate(id, reset = false) {
   recordHistory();
   const template = templates.find(item => item.id === id);
-  resume.style = { ...(reset ? createResume().style : resume.style), template: id, accent: template.color, layout: template.layout };
+  resume.style = { ...(reset ? createResume().style : resume.style), template: id, accent: template.color, layout: template.layout, ...template.defaults };
   if (id === 'cards') resume.style.photoShape = 'round';
   renderDesign(); save(); recordHistory();
 }
