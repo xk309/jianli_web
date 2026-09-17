@@ -34,6 +34,7 @@ let historyIndex = 0;
 let historyTimer;
 let toastTimer;
 const app = document.querySelector('#app');
+const paperSizeObserver = new ResizeObserver(() => requestAnimationFrame(sizePreview));
 function notify(message) {
   const toast = document.querySelector('#toast');
   toast.textContent = message;
@@ -110,7 +111,9 @@ function renderDesign() {
     <section class="design-group"><div class="group-heading"><h3>个人照片</h3><label class="toggle-label"><input type="checkbox" data-style="showPhoto" ${resume.style.showPhoto ? 'checked' : ''} />显示</label></div>${selectControl('照片形状', 'photoShape', resume.style.photoShape, { square: '方形 · 经典', round: '圆形 · 亲和', arch: '拱形 · 艺术' })}</section><button class="button reset-style" data-action="reset-style">恢复当前模板的默认样式</button>`;
 }
 function updatePreview() {
+  paperSizeObserver.disconnect();
   document.querySelector('#paper-frame').innerHTML = resumeMarkup(resume);
+  paperSizeObserver.observe(document.querySelector('#paper-frame .resume-paper'));
   requestAnimationFrame(sizePreview);
 }
 function sizePreview() {
